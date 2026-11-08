@@ -1,0 +1,13 @@
+alpha 0.25 | CIRCLE-LIKE 70% SQUARE-LIKE 3% IN-BETWEEN 22% PER-SAMPLE-RANDOM 2% BROKEN 3% | The 0.75-weighted circle circuit still dominates the mixed hidden codes, so the averaged bias/onehot-driven coarse steps plant a circle blob that low-noise refinement sharpens into a recognizable circle with only mild boundary noise.
+
+alpha 0.50 | CIRCLE-LIKE 6% SQUARE-LIKE 6% IN-BETWEEN 62% PER-SAMPLE-RANDOM 3% BROKEN 23% | Equal mixing superposes two unrelated feature bases (ReLU folding breaks linear connectivity), so high-noise steps still produce the consensus soft blob from the averaged b3/onehot priors but mid/low-noise refinement only sharpens it into a noisy squircle that commits to neither shape.
+
+alpha 0.75 | CIRCLE-LIKE 3% SQUARE-LIKE 70% IN-BETWEEN 22% PER-SAMPLE-RANDOM 2% BROKEN 3% | Mirror of alpha 0.25: the 0.75-weighted square circuit dominates the blended features, giving recognizable squares with light edge distortion from the 25% circle interference.
+
+## SUMMARY
+
+- Both parents use small pixel weights (~0.1) but huge timestep-onehot columns (±2–5) in W1, so h1 is always timestep-dominated; interpolating these columns keeps them large, so high-noise (t=16→~10) x0_hat stays a coherent soft blob driven by the averaged onehot/b3 priors — sampling trajectories are nearly deterministic given x_16, which makes PER-SAMPLE-RANDOM (bimodal circle-vs-square attractors) unlikely.
+- b3 priors are spatially smooth blob templates in both models (corners ≈ -1.5, center ≈ +1); their average is still a valid centered-blob prior, so even a badly degraded forward pass maps to a soft blob rather than pure noise.
+- Linearity holds only at the endpoints: the blended function is ≈ 0.25(W_c·h_c + W_s·h_s) "consensus" plus 0.25 cross-terms W_c·h_s + W_s·h_c that act as feature-level noise; at α=0.25/0.75 the consensus term dominates ~3:1 (recognizable dominant shape), at α=0.50 signal and cross-noise are comparable (noisy hybrid, some degenerate low-contrast outputs).
+- Geometry predicts hybrids: mean circle radius ~3.2 vs square half-side ~2.8 (corners at 3.96), so the consensus boundary is a rounded square/squircle, i.e. IN-BETWEEN, not a clean circle or square.
+- Low-noise steps are where damage shows: refinement depends on precisely aligned W2/W3 feature pairs, which averaging destroys, producing soft/noisy edges at α=0.25/0.75 and noisy, sometimes speckled interiors at α=0.50 (the BROKEN share); the final step x_0 = x0_hat(x_1,1) re-projects onto the network's smooth output manifold, which usually keeps the result a single coherent shape.

@@ -1,0 +1,32 @@
+== training circle (seed 10) ==
+    circle step 8000: loss 0.03179
+    circle step 16000: loss 0.02946
+    circle step 24000: loss 0.03053
+    circle step 32000: loss 0.02918
+    circle step 40000: loss 0.03062
+   saved circle; sample mean 0.199
+== training square (seed 20) ==
+    square step 8000: loss 0.03135
+    square step 16000: loss 0.03036
+    square step 24000: loss 0.02869
+    square step 32000: loss 0.02913
+    square step 40000: loss 0.02895
+   saved square; sample mean 0.198
+== training triangle (seed 30) ==
+    triangle step 8000: loss 0.02134
+    triangle step 16000: loss 0.01868
+    triangle step 24000: loss 0.01917
+    triangle step 32000: loss 0.02008
+    triangle step 40000: loss 0.01987
+   saved triangle; sample mean 0.162
+== training quad_circle (seed 40) ==
+    quad_circle step 8000: loss 0.01180
+    quad_circle step 16000: loss 0.01148
+    quad_circle step 24000: loss 0.01191
+    quad_circle step 32000: loss 0.01163
+    quad_circle step 40000: loss 0.01104
+   saved quad_circle; sample mean 0.095
+   saved blend alpha=0.25; sample mean 0.162
+   saved blend alpha=0.5; sample mean 0.181
+   saved blend alpha=0.75; sample mean 0.174
+ALL DONE
